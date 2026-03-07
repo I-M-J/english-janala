@@ -27,7 +27,23 @@ const loadLevels = () => {
 
 loadLevels();
 
+const showLoading = (status) => {
+    const loading = document.getElementById('loading');
+    const wordContainer = document.getElementById('word-container');
+
+    if (status) {
+        loading.hidden = false;
+        wordContainer.hidden = true;
+    }
+    else {
+        loading.hidden = true;
+        wordContainer.hidden = false;
+    }
+}
+
 const loadLevelWords = (levelNo) => {
+    showLoading(true);
+
     const url = `https://openapi.programming-hero.com/api/level/${levelNo}`;
 
     fetch(url).then((response) => response.json()).then((json) => {
@@ -61,6 +77,8 @@ const displayLevelWords = (json) => {
             </div>
         `
 
+        showLoading(false);
+
         return;
     }
 
@@ -91,6 +109,8 @@ const displayLevelWords = (json) => {
 
         wordContainer.append(wordCard);
     });
+
+    showLoading(false);
 }
 
 const loadWordDetails = async (wordId) => {
