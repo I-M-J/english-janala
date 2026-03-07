@@ -168,3 +168,25 @@ const displayWordDetails = (json) => {
 
     document.getElementById('word-modal').showModal();
 }
+
+document.getElementById('btn-search').addEventListener('click', () => {
+    [...document.getElementsByClassName('btn-lesson')].forEach((btn) => btn.classList.remove('active'));
+
+    const inputSearch = document.getElementById('input-search');
+
+    const inputSearchValue = inputSearch.value.trim().toLowerCase();
+
+    showLoading(true);
+
+    fetch('https://openapi.programming-hero.com/api/words/all')
+        .then((response) => response.json())
+        .then((json) => showSearchedWord(json, inputSearchValue));
+});
+
+const showSearchedWord = (json, inputWord) => {
+    const allWords = json.data;
+
+    json.data = allWords.filter((word) => word.word.toLowerCase().includes(inputWord));
+
+    displayLevelWords(json);
+}
