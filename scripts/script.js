@@ -37,6 +37,27 @@ const displayLevelWords = (json) => {
     const wordContainer = document.getElementById('word-container');
     wordContainer.innerHTML = '';
 
+    if (!(json.data.length)) {
+        wordContainer.classList.remove('grid', 'grid-cols-3', 'gap-7.5');
+
+        wordContainer.innerHTML = `
+            <!-- flex flex-col items-center -->
+            <div class="text-center space-y-4 p-11">
+                <div>
+                    <img class="mx-auto" src="assets/alert-error.png" alt="">
+                </div>
+
+                    <p class="hind-siliguri-font font-normal text-sm leading-6 text-[#79716B]">এই Lesson এ এখনো কোন Vocabulary যুক্ত করা হয়নি।</p>
+
+                    <h2 class="hind-siliguri-font font-medium text-4xl leading-10 text-[#292524]">নেক্সট Lesson এ যান</h2>
+            </div>
+        `
+        
+        return;
+    }
+
+    wordContainer.classList.add('grid', 'grid-cols-3', 'gap-7.5');
+
     json.data.forEach((word) => {
         const wordCard = document.createElement('div');
 
@@ -44,11 +65,11 @@ const displayLevelWords = (json) => {
 
         wordCard.innerHTML = `
             <div class="space-y-6 mb-14">
-                <h2 class="inter-font font-bold text-3xl leading-6">${word.word}</h2>
+                <h2 class="inter-font font-bold text-3xl leading-6">${word.word ? word.word : "Word Not Found"}</h2>
 
                 <p class="inter-font font-medium text-xl leading-6">Meaning /Pronunciation</p>
 
-                <h3 class="hind-siliguri-font font-semibold text-3xl text-[#18181B]">"${word.meaning} / ${word.pronunciation}"</h3>
+                <h3 class="hind-siliguri-font font-semibold text-3xl text-[#18181B]">"${word.meaning ? word.meaning : "Meaning Not Found"} / ${word.pronunciation ? word.pronunciation : "Pronunciation Not Found"}"</h3>
             </div>
 
             <div class="flex justify-between">
