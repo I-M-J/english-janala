@@ -12,7 +12,9 @@ const loadLevels = () => {
 
             btnLevel.setAttribute("onclick", `loadLevelWords(${element.level_no})`);
 
-            btnLevel.className = 'btn btn-outline btn-primary h-full border-2 text-sm font-semibold leading-5.25 py-2';
+            btnLevel.setAttribute("id", `btn-lesson-${element.level_no}`);
+
+            btnLevel.className = 'btn btn-outline btn-primary h-full border-2 text-sm font-semibold leading-5.25 py-2 btn-lesson';
 
             btnLevel.innerHTML = `
                 <i class="fa-solid fa-book-open"></i> Lesson -${element.level_no}
@@ -28,7 +30,13 @@ loadLevels();
 const loadLevelWords = (levelNo) => {
     const url = `https://openapi.programming-hero.com/api/level/${levelNo}`;
 
-    fetch(url).then((response) => response.json()).then((json) => displayLevelWords(json));
+    fetch(url).then((response) => response.json()).then((json) => {
+                                                                displayLevelWords(json);
+
+                                                                [...document.getElementsByClassName('btn-lesson')].forEach((btn) => btn.classList.remove('active'));
+
+                                                                document.getElementById(`btn-lesson-${levelNo}`).classList.add('active');
+                                                            });
 }
 
 const displayLevelWords = (json) => {
